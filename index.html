@@ -3,42 +3,25 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RW Comments</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <style>
-        .item1 { grid-area: updated; }
-        .item2 { grid-area: devices; }
-        .item3 { grid-area: otherrws; }
-        .item4 { grid-area: alreadyupdated; }
-        .item5 { grid-area: comments; }
-        .item6 { grid-area: manufacturers; }
-        .item7 { grid-area: rw; }
-        .item8 { grid-area: blankl; }
-        .item9 { grid-area: blankr; }
-        
-        .grid-container {
-          display: grid;
-          grid-template-areas:
-            'updated devices alreadyupdated manufacturers'
-            'updated otherrws alreadyupdated manufacturers'
-            'blankl rw rw blankr'
-            'comments comments comments comments';
-          gap: 0px;
-          background-color: #2196F3;
-          padding: 0px;
-        }
-        
-        .grid-container > div {
-          background-color: rgba(255, 255, 255, 0.8);
-          padding: 2px 0;
-        }
-    </style>
+<style>
+
+.container {
+    display: grid;  
+    grid-gap: 5px;  
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-rows: auto 1fr auto;
+}
+
+</style>
 
 </head>
 
 <body style="background-color:#deeaee">
-    <div class="grid-container">
-        <div class="item1">
+    <div class="container">
+        <div class="select">
             <table id="tblAttributes">
                 <label><b>Updated Attributes</b></label>
 
@@ -111,7 +94,7 @@
                         <label for="Type of Reinforcement">Type of Reinforcement</label>
                     </td>
                 </tr>
- 
+
                 <tr>
                     <td>
                         <input id="Original Circumference" type="checkbox" value="Original Circumference" />
@@ -121,7 +104,7 @@
 
             </table>
         </div>
-        <div class="item2">
+        <div class="select">
             <table id="tblDevices">
                 <label><b>Devices</b></label>
                 <tr>
@@ -166,10 +149,9 @@
                     </td>
                 </tr>
             </table>
-        </div>  
-        <div class="item3">
+            
             <table id="OtherRWs">
-                <label><b>Other RW's</b></label>   
+                <label><b>Other RW's</b></label>
 
                 <tr>
                     <td>
@@ -182,7 +164,7 @@
                         <label><input type = "radio" name = "otherRW" value = "Transmission - Sent back to PG&E">Transmission</label>
                     </td>
                 </tr>
-                
+
                 <tr>
                     <td>
                         <label><input type = "radio" name = "otherRW" value = "No Mapping Required - NOCO in SAP">NOCO</label>
@@ -197,14 +179,14 @@
 
             </table>
         </div>
-        <div class="item4">
+        <div class="select">
             <table id="alreadyUpdatedAttributes">
                 <label><b>Already Mapped Correctly</b></label>
 
                 <tr>
                     <td>
-                        <input id="Pole Address" type="checkbox" value="Pole Address" />
-                        <label for="Pole Address">Pole Address</label>
+                        <input id="Address" type="checkbox" value="Address" />
+                        <label for="Address">Address</label>
                     </td>
                 </tr>
 
@@ -280,57 +262,87 @@
 
             </table>
         </div>
+
+        <div class="select" id="reinforcementdiv" style="display:none;"></div>
+        <div class="select" id="manufacturerdiv" style="display:none;"></div>
         
-        <div class="item6"><b> </b></div>
-        
-        <div class="item8"></div>
-        
-        <div class="item7">           
-            <label for="RW Number"><b>RW Number : </b></label><input type="text" id="rwNumber">
-            <input style="font-weight: bold;" type="button" id="btnClick" value="Generate" onclick="showDiv()"/>
-        </div>
-        
-        <div class="item9"></div>
-        
-        <div id="result" class="item5" style="display:none;">
-            <div id="sessionnamediv">
-                <b>Session Name : </b>
-                <input type="button" onclick="copyToClipboard('#sessionname')" value="Copy" />
-                <span id="sessionname" style="font-family:Calibri; font-size:11pt;"></span>
-            </div>
-        
-            <div id="sessiondiv">
-                <b> Session Description : </b>
-               <input type="button" onclick="copyToClipboard('#session')" value="Copy" />
-               <span id="session" style="font-family:Calibri; font-size:11pt;"></span>
-            </div>
-        
-            <div id="polediv">
-                <b> Pole Comment : </b>
-                <input type="button" onclick="copyToClipboard('#pole')" value="Copy" />
-                <span id="pole" style="font-family:Calibri; font-size:11pt;"></span>
-            </div>
-            
-            <div id="devicecommentdiv" style="display:none;">
-                <b> Device Comment : </b>
-                <input type="button" onclick="copyToClipboard('#devicecomment')" value="Copy" />
-                <span id="devicecomment" style="font-family:Calibri; font-size:11pt;"></span>
-            </div>
-        
-            <div id="sapdiv">
-                <b> SAP/Access Comment : </b>
-                <input type="button" onclick="copyToClipboard('#sap')" value="Copy" />
-                <span id="sap" style="font-family:Calibri; font-size:11pt;"></span>
+    </div>
+    
+        <div style="width:100%;">
+            <div style="width:40%; margin: 0 auto;">
+                <table>
+                    <tr>
+                        <td><input type="text" onfocus="this.value=''" id="rwNumber" placeholder="RW Number Here"></td>
+                        <td><input style="font-weight: bold;" type="button" id="btnClick" value="Generate" onclick="showDiv()" /></td>
+                        <td>
+                            <input type="checkbox" name="rwInComment" id="rwInComment" value="yes" onchange="myFunction()">
+                            <label for="rwInComment">Comment In GIS</label>
+                        </td>
+                </table>
+                <table>
+                    </tr>
+                    <tr>
+                        <td><input class="rwcomment" type="text" onfocus="this.value=''" id="oldRwNumber" placeholder="RW Number from Comment"></td>
+                        <td><input class="rwcomment" type="text" onfocus="this.value=''" id="lastUser" placeholder="Last User"></td>
+                    </tr>
+                </table>
             </div>
         </div>
+        
+        <div class="resultdiv" style="width:100%; margin: 0 auto;">
+    
+            <div id="result" class="" style="display:none;">
+                <div id="sessionnamediv">
+                    <b>Session Name : </b>
+                    <input type="button" onclick="copyToClipboard('#sessionname')" value="Copy" />
+                    <span id="sessionname" style="font-family:Calibri; font-size:11pt;"></span>
+                </div>
+    
+                <div id="sessiondiv">
+                    <b> Session Description : </b>
+                    <input type="button" onclick="copyToClipboard('#session')" value="Copy" />
+                    <span id="session" style="font-family:Calibri; font-size:11pt;"></span>
+                </div>
+    
+                <div id="polediv">
+                    <b> Pole Comment : </b>
+                    <input type="button" onclick="copyToClipboard('#pole')" value="Copy" />
+                    <span id="pole" style="font-family:Calibri; font-size:11pt;"></span>
+                </div>
+    
+                <div id="devicecommentdiv" style="display:none;">
+                    <b> Device Comment : </b>
+                    <input type="button" onclick="copyToClipboard('#devicecomment')" value="Copy" />
+                    <span id="devicecomment" style="font-family:Calibri; font-size:11pt;"></span>
+                </div>
+    
+                <div id="sapdiv">
+                    <b> SAP/Access Comment : </b>
+                    <input type="button" onclick="copyToClipboard('#sap')" value="Copy" />
+                    <span id="sap" style="font-family:Calibri; font-size:11pt;"></span>
+                </div>
+            </div>
+        </div>
+    
 </body>
 
 <script type="text/javascript">
+    
+    // Hide the text input boxes in default
+    $('.rwcomment').css('display','none');
+    function myFunction() {
+       if($('#rwInComment').prop('checked')) {
+             $('.rwcomment').css('display','block');
+           } else {
+             $('.rwcomment').css('display','none');
+           }
+    }
+    
     // Show Comments
     function showDiv() {
         document.getElementById('result').style.display = "block";
     }
-             
+
     // Copy Comments
     function copyToClipboard(element) {
         var $temp = $("<input>");
@@ -339,24 +351,28 @@
         document.execCommand("copy");
         $temp.remove();
     }
- 
+
     $(function() {
 
         $("#btnClick").click(function() {
-            
+
             // Date
             const timeElapsed = Date.now();
             const today = new Date(timeElapsed);
             const date = today.toLocaleDateString();
-            
+
             // Store RW no. and display Session Name
             var rw = document.getElementById("rwNumber").value;
             document.getElementById("sessionname").innerHTML = "<p>RW" + rw + "UDC</p>";
             
+            // Store Old RW No. and Last User
+            var oldrw = document.getElementById("oldRwNumber").value;
+            var lastuser = document.getElementById("lastUser").value;
+
             var updatedAttributes = new Array(); // Array for updated attributes
             var devices = new Array(); // Array for devices
             var alreadyUpdatedAttributes = new Array(); // Array for already updated attributes
-            
+
             // Store selected attributes in updatedAttributes Array
             $("#tblAttributes input[type=checkbox]:checked").each(function() {
 
@@ -370,7 +386,7 @@
                 alreadyUpdatedAttributes.push(this.value);
 
             });
-            
+
             // Store selected devices in devices Array
             $("#tblDevices input[type=checkbox]:checked").each(function() {
 
@@ -378,11 +394,124 @@
 
             });
             
+            // Existing Reinforcements
+            const reinforcements = document.createElement("div");
+            reinforcements.innerHTML = `<table><label><b>Existing Reinforcements</b></label>
+                <tr>
+                    <td><span>Fiberglass Wrap</span></td>
+                    <td><span id="fibw">FIBW</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#fibw')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Mod Pole</span></td>
+                    <td><span id="modp">MODP</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#modp')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>No Reinforcement</span></td>
+                    <td><span id="none">NONE</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#none')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Other</span></td>
+                    <td><span id="othr">OTHR</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#othr')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Pole Splint</span></td>
+                    <td><span id="pspl">PSPL</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#pspl')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Pole Top Extension</span></td>
+                    <td><span id="ptop">PTOP</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#ptop')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Steel Truss</span></td>
+                    <td><span id="stet">STET</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#stet')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Steel Wrap</span></td>
+                    <td><span id="stew">STEW</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#stew')" value="Copy" /></td>
+                </tr>
+                <tr>
+                    <td><span>Wood Stub</span></td>
+                    <td><span id="wost">WOST</span></td>
+                    <td><input type="button" onclick="copyToClipboard('#wost')" value="Copy" /></td>
+                </tr></table>`;
+            reinforcements.setAttribute("class", "select");
+            
+            // Manufacturers    
+            const manufacturers = document.createElement("div");
+            manufacturers.innerHTML = `<table><label><b>Manufacturers</b></label>
+
+                <tr>
+                    <td><span id="baxco">Baxco</span></td>
+	                <td><input type="button" onclick="copyToClipboard('#baxco')" value="Copy" /></td>
+                </tr>
+
+                <tr>
+                    <td><span id="carney">Carney Co</span></td>
+	                <td><input type="button" onclick="copyToClipboard('#carney')" value="Copy" /></td>
+                </tr>
+
+                <tr>
+                    <td><span id="jhbc">J H Baxter Co</span></td>
+	                <td><input type="button" onclick="copyToClipboard('#jhbc')" value="Copy" /></td>
+                </tr>
+                
+                <tr>
+                    <td><span id="mcc">McFarland Cascade Co</span></td>
+	                <td><input type="button" onclick="copyToClipboard('#mcc')" value="Copy" /></td>
+                </tr>
+
+                <tr>
+                    <td><span id="mbc">McKormick & Baxter Co</span></td>
+	                <td><input type="button" onclick="copyToClipboard('#mbc')" value="Copy" /></td>
+                </tr>
+            </table>
+            `;
+            manufacturers.setAttribute("class", "select");
+            
+            // Show List
+            var reinforcementDiv = document.getElementById("reinforcementdiv");
+            var manufacturerDiv = document.getElementById("manufacturerdiv");
+            if (updatedAttributes.includes('Type of Reinforcement') || updatedAttributes.includes('Manufacturer')) {
+                if (updatedAttributes.includes('Type of Reinforcement') && updatedAttributes.includes('Manufacturer')) {
+                    reinforcementDiv.innerHTML = "";
+                    manufacturerDiv.innerHTML = "";
+                    document.getElementById("reinforcementdiv").appendChild(reinforcements);
+                    document.getElementById("manufacturerdiv").appendChild(manufacturers);
+                    document.getElementById('reinforcementdiv').style.display = "block";
+                    document.getElementById('manufacturerdiv').style.display = "block";
+                } else if (updatedAttributes.includes('Type of Reinforcement')) {
+                    reinforcementDiv.innerHTML = "";
+                    manufacturerDiv.innerHTML = "";
+                    document.getElementById("reinforcementdiv").appendChild(reinforcements);
+                    document.getElementById('reinforcementdiv').style.display = "block";
+                    document.getElementById('manufacturerdiv').style.display = "none";
+                } else if (updatedAttributes.includes('Manufacturer')) {
+                    reinforcementDiv.innerHTML = "";
+                    manufacturerDiv.innerHTML = "";
+                    document.getElementById("manufacturerdiv").appendChild(manufacturers);
+                    document.getElementById('manufacturerdiv').style.display = "block";
+                    document.getElementById('reinforcementdiv').style.display = "none";
+                }
+            } else {
+                document.getElementById('reinforcementdiv').style.display = "none";
+                document.getElementById('manufacturerdiv').style.display = "none";
+                reinforcementDiv.innerHTML = "";
+                manufacturerDiv.innerHTML = "";
+            }
+            
             // Display comments 
             if (updatedAttributes.length == 0 && devices.length == 0) {
-               document.getElementById('sessionnamediv').style.display = "none";
-               document.getElementById('sessiondiv').style.display = "none";
-               document.getElementById('polediv').style.display = "none";
+                document.getElementById('sessionnamediv').style.display = "none";
+                document.getElementById('sessiondiv').style.display = "none";
+                document.getElementById('polediv').style.display = "none";
             } else {
                 if (devices.length == 0) {
                     document.getElementById('sessionnamediv').style.display = "none";
@@ -391,20 +520,20 @@
                 }
                 document.getElementById('sessionnamediv').style.display = "block";
                 document.getElementById('sessiondiv').style.display = "block";
-               document.getElementById('polediv').style.display = "block";
-            } 
-            
+                document.getElementById('polediv').style.display = "block";
+            }
+
             if (devices.length > 0) {
-               document.getElementById("devicecomment").innerHTML = "<p>Updated Address per RW " + rw + "</p>";
-               document.getElementById('devicecommentdiv').style.display = "block";
+                document.getElementById("devicecomment").innerHTML = "<p>Updated Address per RW " + rw + "</p>";
+                document.getElementById('devicecommentdiv').style.display = "block";
             } else {
-               document.getElementById('devicecommentdiv').style.display = "none";
+                document.getElementById('devicecommentdiv').style.display = "none";
             }
             // Format devices Array
             for (var i = 0; i < devices.length; i++) {
                 devices[i] = devices[i] + " Address";
             }
-            
+
             // Concat updatedAttributes Attributes and Devices
             var finalUpdatedAttributes = updatedAttributes.concat(devices); // Final Array for updated attributes with devices
 
@@ -417,7 +546,7 @@
             var updatedAttributesComment = finalUpdatedAttributes.join(delimiter);
             var index = updatedAttributesComment.lastIndexOf(delimiter);
             updatedAttributesComment = updatedAttributesComment.substring(0, index) + ' and ' + updatedAttributesComment.substring(index + delimiter.length);
-                     
+
             // Formatting comment for already updated attributes
             var alreadyUpdatedAttributesComment = alreadyUpdatedAttributes.join(delimiter);
             var index = alreadyUpdatedAttributesComment.lastIndexOf(delimiter);
@@ -432,249 +561,329 @@
             var deviceComment = devices.join(delimiter);
             var index = deviceComment.lastIndexOf(delimiter);
             deviceComment = deviceComment.substring(0, index) + ' and ' + deviceComment.substring(index + delimiter.length);
-          	
-        	// If only one attribute updated
-        	if(updatedAttributes.length == 1) {
-        		if (devices.length === 0 && alreadyUpdatedAttributes.length === 0) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
+            
+            if ($("input:radio[name='otherRW']").is(":checked")) {
+                document.getElementById('devicecommentdiv').style.display = "none";
+                document.getElementById('sessionnamediv').style.display = "none";
+                document.getElementById('sessiondiv').style.display = "none";
+                document.getElementById('polediv').style.display = "none";
+                $('input:checkbox').removeAttr('checked');
+                var radioButtons = document.querySelectorAll('input[name="otherRW"]');
+                for (const radioButton of radioButtons) {
+                    if (radioButton.checked) {
+                        var selectedOtherRW = $("input[type = 'radio']:checked").val();
+                        if (selectedOtherRW == 'idoc') {
+                            document.getElementById("sap").innerHTML = "<p>IDOC (" + date + ") - Waiting for jp Confirmation</p>";
+                            $('input[name=otherRW]').attr('checked', false);
+                        } else if (selectedOtherRW.length > 0) {
+                            document.getElementById("sap").innerHTML = "<p>" + selectedOtherRW + "</p>";
+                            $('input[name=otherRW]').attr('checked', false);
+                        }
+                        break;
                     }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-                    
-        		} else if(devices.length === 1 && alreadyUpdatedAttributes.length === 0) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-         			
-        		} else if(devices.length === 0 && alreadyUpdatedAttributes.length === 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-
-        		} else if(devices.length === 1 && alreadyUpdatedAttributes.length === 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-
-        		} else if(devices.length === 1 && alreadyUpdatedAttributes.length > 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-
-        		} else if(devices.length > 1 && alreadyUpdatedAttributes.length === 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-  
-                } else if(devices.length > 1 && alreadyUpdatedAttributes.length === 0) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-  
-                } else if(devices.length === 0 && alreadyUpdatedAttributes.length > 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
-    
-                } else if(devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
- 
-                } else {
-                    document.write("<b>Sorry for the Inconvenience</b><p>Working On Some Things to Workout properly</p>");
                 }
-                
-        	} else if(updatedAttributes.length > 1) {
-        		if (devices.length == 0 && alreadyUpdatedAttributes.length == 0) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + poleComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + poleComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + poleComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + poleComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
-                    
-        		} else if(devices.length == 1 && alreadyUpdatedAttributes.length == 0) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
-         			
-        		} else if(devices.length == 0 && alreadyUpdatedAttributes.length == 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
 
-        		} else if(devices.length == 1 && alreadyUpdatedAttributes.length == 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+            } else {
+                // If only one attribute updated
+                if (updatedAttributes.length == 1) {
+                    if (devices.length === 0 && alreadyUpdatedAttributes.length === 0) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
-        		} else if(devices.length == 1 && alreadyUpdatedAttributes.length > 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+                    } else if (devices.length === 1 && alreadyUpdatedAttributes.length === 0) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
-        		} else if(devices.length > 1 && alreadyUpdatedAttributes.length == 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
-  
-                } else if(devices.length > 1 && alreadyUpdatedAttributes.length == 0) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
-  
-                } else if(devices.length == 0 && alreadyUpdatedAttributes.length > 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
-    
-                } else if(devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
-                    if (firstElement.includes(substring)) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                    } else {
-                        document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                        document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                    }
-                    document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
- 
-                } else {
-                    document.write("<b>Sorry for the Inconvenience</b><p>Working On Some Things to Workout properly</p>");
-                }
-                
-        	} else if(updatedAttributes.length == 0) {
-        		if (devices.length == 1 && alreadyUpdatedAttributes.length == 0) {
-                    document.getElementById("sap").innerHTML = "<p>Updated " + devices + "</p>";
-                    document.getElementById("session").innerHTML = "<p>Updated " + devices + "</p>";
-                	
-        		} else if(devices.length == 0 && alreadyUpdatedAttributes.length == 1) {
-                    document.getElementById("sap").innerHTML = "<p>No Mapping Required - " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                    } else if (devices.length === 0 && alreadyUpdatedAttributes.length === 1) {
+                        if (oldrw !== '') {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
+                            }
+                        } else {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
+                            }
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
-        		} else if(devices.length == 1 && alreadyUpdatedAttributes.length == 1) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + devices + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                    } else if (devices.length === 1 && alreadyUpdatedAttributes.length === 1) {
+                        if (oldrw !== '') {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        } else {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
+
+                    } else if (devices.length === 1 && alreadyUpdatedAttributes.length > 1) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length === 1) {
+                        if (oldrw !== '') {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        } else {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length === 0) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p> Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
+
+                    } else if (devices.length === 0 && alreadyUpdatedAttributes.length > 1) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributes + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributes + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributes + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributes + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
+
+                    } else {
+                        document.write("<b>Sorry for the Inconvenience</b><p>Working On Some Things to Workout properly</p>");
+                    }
+
+                } else if (updatedAttributes.length > 1) {
+                    if (devices.length == 0 && alreadyUpdatedAttributes.length == 0) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + poleComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + poleComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + poleComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + poleComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length == 1 && alreadyUpdatedAttributes.length == 0) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length == 0 && alreadyUpdatedAttributes.length == 1) {
+                        if (oldrw !== '') {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        } else {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length == 1 && alreadyUpdatedAttributes.length == 1) {
+                        if (oldrw !== '') {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        } else {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length == 1 && alreadyUpdatedAttributes.length > 1) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length == 1) {
+                        if (oldrw !== '') {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        } else {
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length == 0) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p> Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length == 0 && alreadyUpdatedAttributes.length > 1) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
+                        if (firstElement.includes(substring)) {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                        }
+                        document.getElementById("pole").innerHTML = "<p>Updated " + poleComment + " per RW " + rw + "</p>";
+
+                    } else {
+                        document.write("<b>Sorry for the Inconvenience</b><p>Working On Some Things to Workout properly</p>");
+                    }
+
+                } else if (updatedAttributes.length == 0) {
+                    if (devices.length == 1 && alreadyUpdatedAttributes.length == 0) {
+                        document.getElementById("sap").innerHTML = "<p>Updated " + devices + "</p>";
                         document.getElementById("session").innerHTML = "<p>Updated " + devices + "</p>";
 
-        		} else if(devices.length == 1 && alreadyUpdatedAttributes.length > 1) {
+                    } else if (devices.length == 0 && alreadyUpdatedAttributes.length == 1) {
+                        if (oldrw !== '') {
+                            document.getElementById("sap").innerHTML = "<p>No Mapping Required - " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>No Mapping Required - " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                        }
+
+                    } else if (devices.length == 1 && alreadyUpdatedAttributes.length == 1) {
+                        if (oldrw !== '') {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + devices + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + devices + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                        }
+                        document.getElementById("session").innerHTML = "<p>Updated " + devices + "</p>";
+
+                    } else if (devices.length == 1 && alreadyUpdatedAttributes.length > 1) {
                         document.getElementById("sap").innerHTML = "<p>Updated " + devices + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
                         document.getElementById("session").innerHTML = "<p>Updated " + devices + "</p>";
 
-        		} else if(devices.length > 1 && alreadyUpdatedAttributes.length == 1) {
-                        document.getElementById("sap").innerHTML = "<p>Updated " + deviceComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length == 1) {
+                        if (oldrw !== '') {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + deviceComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                        } else {
+                            document.getElementById("sap").innerHTML = "<p>Updated " + deviceComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                        }
                         document.getElementById("session").innerHTML = "<p>Updated " + deviceComment + "</p>";
-  
-                } else if(devices.length > 1 && alreadyUpdatedAttributes.length == 0) {
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length == 0) {
                         document.getElementById("sap").innerHTML = "<p>Updated " + deviceComment + "</p>";
                         document.getElementById("session").innerHTML = "<p>Updated " + deviceComment + "</p>";
-                
-                } else if(devices.length == 0 && alreadyUpdatedAttributes.length > 1) {
-                    document.getElementById("sap").innerHTML = "<p>No Mapping Required - " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-    
-                } else if(devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
-                    document.getElementById("sap").innerHTML = "<p>Updated " + deviceComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                    document.getElementById("session").innerHTML = "<p>Updated " + deviceComment + "</p>";
- 
-                } else {
-                    const radioButtons = document.querySelectorAll('input[name="otherRW"]');
-                    for (const radioButton of radioButtons) {
-                        if (radioButton.checked) {
-                            var selectedOtherRW = $("input[type = 'radio']:checked").val();  
-                	        if(selectedOtherRW == 'idoc') {
-                    	        document.getElementById("sap").innerHTML = "<p>IDOC (" + date + ") - Waiting for jp Confirmation</p>";
-		        $('input[name=otherRW]').attr('checked',false);
-                		    }
-                            else if(selectedOtherRW.length > 0) {
-                                document.getElementById("sap").innerHTML = "<p>" + selectedOtherRW + "</p>";
-	             $('input[name=otherRW]').attr('checked',false);
-                            }
-                    break;
-                        }
+
+                    } else if (devices.length == 0 && alreadyUpdatedAttributes.length > 1) {
+                        document.getElementById("sap").innerHTML = "<p>No Mapping Required - " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+
+                    } else if (devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
+                        document.getElementById("sap").innerHTML = "<p>Updated " + deviceComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                        document.getElementById("session").innerHTML = "<p>Updated " + deviceComment + "</p>";
+
+                    } else {
+
                     }
+
                 }
-                
-        	}
-        	
+            }
         });
 
     });
