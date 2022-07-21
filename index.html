@@ -5,8 +5,14 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RW Comments</title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/cupertino/jquery-ui.css" rel = "stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <style>
+
+body {
+  background-color: #f7f2f2;
+}
 
 .container {
     display: grid;  
@@ -15,88 +21,204 @@
     grid-template-rows: auto 1fr auto;
 }
 
+.button {
+  background-color: white;
+  border: 2px solid #008CBA;
+  color: #2779aa;
+  text-align: center;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.checkbox-rect input[type="checkbox"] {
+  display: none;
+}
+.checkbox-rect input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 10px;
+  font: 14px/20px "Open Sans", Arial, sans-serif;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.checkbox-rect input[type="checkbox"]:hover + label:hover {
+  color: #2779aa;
+}
+.checkbox-rect input[type="checkbox"]:hover + label:before {
+  background: #50565a;
+  box-shadow: inset 0px 0px 0px 2px #f7f2f2;
+}
+.checkbox-rect input[type="checkbox"] + label:last-child {
+  margin-bottom: 0;
+}
+.checkbox-rect input[type="checkbox"] + label:before {
+  content: "";
+  display: block;
+  width: 1.4em;
+  height: 1.4em;
+  border: 1px solid #343a3f;
+  border-radius: 0.2em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-transition: all 0.2s, background 0.2s ease-in-out;
+  transition: all 0.2s, background 0.2s ease-in-out;
+  background: #f3f3f3;
+}
+.checkbox-rect input[type="checkbox"]:checked + label:before {
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 0.2em;
+  border: 2px solid #fff;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  background: #2779aa;
+  box-shadow: 0 0 0 1px #000;
+}
+
+.radio-circle input[type="radio"] {
+  display: none;
+}
+.radio-circle input[type="radio"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font: 14px/20px "Open Sans", Arial, sans-serif;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.radio-circle input[type="radio"]:hover + label:hover {
+  color: #2779aa;
+}
+.radio-circle input[type="radio"]:hover + label:before {
+  border: 1px solid #343a3f;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid #fff;
+  background: #50565a;
+  box-shadow: 0 0 0 1px #000;
+}
+.radio-circle input[type="radio"] + label:last-child {
+  margin-bottom: 0;
+}
+.radio-circle input[type="radio"] + label:before {
+  content: "";
+  display: block;
+  width: 1.4em;
+  height: 1.4em;
+  border: 1px solid #343a3f;
+  border-radius: 1em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-transition: all 0.2s, transform 0.3s ease-in-out;
+  transition: all 0.2s, transform 0.3s ease-in-out;
+  background: #f3f3f3;
+}
+.radio-circle input[type="radio"]:checked + label:before {
+  border-radius: 1em;
+  border: 2px solid #fff;
+  width: 1.2em;
+  height: 1.2em;
+  background: #2779aa;
+  box-shadow: 0 0 0 1px #000;
+  -webkit-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+}
 </style>
 
 </head>
 
-<body style="background-color:#deeaee">
+<body>
+<div class="ui-widget">
     <div class="container">
         <div class="select">
             <table id="tblAttributes">
-                <label><b>Updated Attributes</b></label>
+                <label><b style="color:#2779aa;">Updated Attributes</b></label>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Address" type="checkbox" value="Address" />
                         <label for="Address">Address</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Barcode" type="checkbox" value="Barcode" />
                         <label for="Barcode">Barcode</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Pole Type" type="checkbox" value="Pole Type" />
                         <label for="Pole Type">Pole Type</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Manufactured Year" type="checkbox" value="Manufactured Year" />
                         <label for="Manufactured Year">Manufactured Year</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Manufacturer" type="checkbox" value="Manufacturer" />
                         <label for="Manufacturer">Manufacturer</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Original Treatment" type="checkbox" value="Original Treatment" />
                         <label for="Original Treatment">Original Treatment</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Pole Species" type="checkbox" value="Pole Species" />
                         <label for="Pole Species">Pole Species</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Pole Class" type="checkbox" value="Pole Class" />
                         <label for="Pole Class">Pole Class</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Pole Height" type="checkbox" value="Pole Height" />
                         <label for="Pole Height">Pole Height</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Type of Reinforcement" type="checkbox" value="Type of Reinforcement" />
                         <label for="Type of Reinforcement">Type of Reinforcement</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Original Circumference" type="checkbox" value="Original Circumference" />
                         <label for="Original Circumference">Original Circumference</label>
                     </td>
@@ -106,74 +228,78 @@
         </div>
         <div class="select">
             <table id="tblDevices">
-                <label><b>Devices</b></label>
+                <label><b style="color:#2779aa;">Devices</b></label>
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Transformer" type="checkbox" value="Transformer" />
                         <label for="Transformer">Transformer</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Fuse" type="checkbox" value="Fuse" />
                         <label for="Fuse">Fuse</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Switch" type="checkbox" value="Switch" />
                         <label for="Switch">Switch</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Open Point" type="checkbox" value="Open Point" />
                         <label for="Open Point">Open Point</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <td class="checkbox-rect">
                         <input id="Dynamic Protective Device" type="checkbox" value="Dynamic Protective Device" />
                         <label for="Dynamic Protective Device">Dynamic Protective Device</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="SmartMeterNetworkDevice" type="checkbox" value="SmartMeterNetworkDevice" />
-                        <label for="SmartMeterNetworkDevice">SmartMeterNetworkDevice</label>
+                    <td class="checkbox-rect">
+                        <input id="Smart Meter Network Device" type="checkbox" value="Smart Meter Network Device" />
+                        <label for="Smart Meter Network Device">Smart Meter Network Device</label>
                     </td>
                 </tr>
             </table>
             
             <table id="OtherRWs">
-                <label><b>Other RW's</b></label>
+                <label><b style="color:#2779aa;">Other RW's</b></label>
 
                 <tr>
-                    <td>
-                        <label><input type = "radio" name = "otherRW" value = "Pole Removal - Sent back to PG&E">Pole Removal</label>
+                    <td class="radio-circle">
+                        <input id="poleRemoval" type = "radio" name = "otherRW" value = "Pole Removal - Sent back to PG&E">
+                        <label for="poleRemoval">Pole Removal</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <label><input type = "radio" name = "otherRW" value = "Transmission - Sent back to PG&E">Transmission</label>
+                    <td class="radio-circle">
+                        <input id="transmission" type = "radio" name = "otherRW" value = "Transmission - Sent back to PG&E">
+                        <label for="transmission">Transmission</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <label><input type = "radio" name = "otherRW" value = "No Mapping Required - NOCO in SAP">NOCO</label>
+                    <td class="radio-circle">
+                        <input id="noco" type = "radio" name = "otherRW" value = "No Mapping Required - NOCO in SAP">
+                        <label for="noco">NOCO</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <label><input type = "radio" name = "otherRW" value = "idoc">IDOC</label>
+                    <td class="radio-circle">
+                        <input id="idoc" type = "radio" name = "otherRW" value = "idoc">
+                        <label for="idoc">IDOC</label>
                     </td>
                 </tr>
 
@@ -181,82 +307,82 @@
         </div>
         <div class="select">
             <table id="alreadyUpdatedAttributes">
-                <label><b>Already Mapped Correctly</b></label>
+                <label><b style="color:#2779aa;">Already Mapped Correctly</b></label>
 
                 <tr>
-                    <td>
-                        <input id="Address" type="checkbox" value="Address" />
-                        <label for="Address">Address</label>
+                    <td class="checkbox-rect">
+                        <input id="Address1" type="checkbox" value="Address" />
+                        <label for="Address1">Address</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Barcode" type="checkbox" value="Barcode" />
-                        <label for="Barcode">Barcode</label>
+                    <td class="checkbox-rect">
+                        <input id="Barcode1" type="checkbox" value="Barcode" />
+                        <label for="Barcode1">Barcode</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Pole Type" type="checkbox" value="Pole Type" />
-                        <label for="Pole Type">Pole Type</label>
+                    <td class="checkbox-rect">
+                        <input id="Pole Type1" type="checkbox" value="Pole Type" />
+                        <label for="Pole Type1">Pole Type</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Manufactured Year" type="checkbox" value="Manufactured Year" />
-                        <label for="Manufactured Year">Manufactured Year</label>
+                    <td class="checkbox-rect">
+                        <input id="Manufactured Year1" type="checkbox" value="Manufactured Year" />
+                        <label for="Manufactured Year1">Manufactured Year</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Manufacturer" type="checkbox" value="Manufacturer" />
-                        <label for="Manufacturer">Manufacturer</label>
+                    <td class="checkbox-rect">
+                        <input id="Manufacturer1" type="checkbox" value="Manufacturer" />
+                        <label for="Manufacturer1">Manufacturer</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Original Treatment" type="checkbox" value="Original Treatment" />
-                        <label for="Original Treatment">Original Treatment</label>
+                    <td class="checkbox-rect">
+                        <input id="Original Treatment1" type="checkbox" value="Original Treatment" />
+                        <label for="Original Treatment1">Original Treatment</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Pole Species" type="checkbox" value="Pole Species" />
-                        <label for="Pole Species">Pole Species</label>
+                    <td class="checkbox-rect">
+                        <input id="Pole Species1" type="checkbox" value="Pole Species" />
+                        <label for="Pole Species1">Pole Species</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Pole Class" type="checkbox" value="Pole Class" />
-                        <label for="Pole Class">Pole Class</label>
+                    <td class="checkbox-rect">
+                        <input id="Pole Class1" type="checkbox" value="Pole Class" />
+                        <label for="Pole Class1">Pole Class</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Pole Height" type="checkbox" value="Pole Height" />
-                        <label for="Pole Height">Pole Height</label>
+                    <td class="checkbox-rect">
+                        <input id="Pole Height1" type="checkbox" value="Pole Height" />
+                        <label for="Pole Height1">Pole Height</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Type of Reinforcement" type="checkbox" value="Type of Reinforcement" />
-                        <label for="Type of Reinforcement">Type of Reinforcement</label>
+                    <td class="checkbox-rect">
+                        <input id="Type of Reinforcement1" type="checkbox" value="Type of Reinforcement" />
+                        <label for="Type of Reinforcement1">Type of Reinforcement</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <input id="Original Circumference" type="checkbox" value="Original Circumference" />
-                        <label for="Original Circumference">Original Circumference</label>
+                    <td class="checkbox-rect">
+                        <input id="Original Circumference1" type="checkbox" value="Original Circumference" />
+                        <label for="Original Circumference1">Original Circumference</label>
                     </td>
                 </tr>
 
@@ -267,14 +393,14 @@
         <div class="select" id="manufacturerdiv" style="display:none;"></div>
         
     </div>
-    
+    <div class="">
         <div style="width:100%;">
             <div style="width:40%; margin: 0 auto;">
                 <table>
                     <tr>
-                        <td><input type="text" onfocus="this.value=''" id="rwNumber" placeholder="RW Number Here"></td>
-                        <td><input style="font-weight: bold;" type="button" id="btnClick" value="Generate" onclick="showDiv()" /></td>
-                        <td>
+                        <td><input type="text" id="rwNumber" placeholder="RW Number"></td>
+                        <td><input class="button" type="button" id="btnClick" value="Generate" onclick="showDiv()" /></td>
+                        <td class="checkbox-rect">
                             <input type="checkbox" name="rwInComment" id="rwInComment" value="yes" onchange="myFunction()">
                             <label for="rwInComment">Comment In GIS</label>
                         </td>
@@ -282,8 +408,8 @@
                 <table>
                     </tr>
                     <tr>
-                        <td><input class="rwcomment" type="text" onfocus="this.value=''" id="oldRwNumber" placeholder="RW Number from Comment"></td>
-                        <td><input class="rwcomment" type="text" onfocus="this.value=''" id="lastUser" placeholder="Last User"></td>
+                        <td><input class="rwcomment" type="text" id="oldRwNumber" placeholder="RW Number in Comment"></td>
+                        <td><input class="rwcomment" type="text" id="lastUser" placeholder="Last User"></td>
                     </tr>
                 </table>
             </div>
@@ -292,42 +418,43 @@
         <div class="resultdiv" style="width:100%; margin: 0 auto;">
     
             <div id="result" class="" style="display:none;">
+            
                 <div id="sessionnamediv">
-                    <b>Session Name : </b>
-                    <input type="button" onclick="copyToClipboard('#sessionname')" value="Copy" />
+                    <b style="color:#2779aa;">Session Name : </b>
+                    <input class="button" type="button" onclick="copyToClipboard('#sessionname')" value="Copy" />
                     <span id="sessionname" style="font-family:Calibri; font-size:11pt;"></span>
                 </div>
-    
                 <div id="sessiondiv">
-                    <b> Session Description : </b>
-                    <input type="button" onclick="copyToClipboard('#session')" value="Copy" />
+                    <b style="color:#2779aa;"> Session Description : </b>
+                    <input class="button" type="button" onclick="copyToClipboard('#session')" value="Copy" />
                     <span id="session" style="font-family:Calibri; font-size:11pt;"></span>
                 </div>
-    
+                    
                 <div id="polediv">
-                    <b> Pole Comment : </b>
-                    <input type="button" onclick="copyToClipboard('#pole')" value="Copy" />
+                    <b style="color:#2779aa;"> Pole Comment : </b>
+                    <input class="button" type="button" onclick="copyToClipboard('#pole')" value="Copy" />
                     <span id="pole" style="font-family:Calibri; font-size:11pt;"></span>
                 </div>
-    
+            
                 <div id="devicecommentdiv" style="display:none;">
-                    <b> Device Comment : </b>
-                    <input type="button" onclick="copyToClipboard('#devicecomment')" value="Copy" />
+                    <b style="color:#2779aa;"> Device Comment : </b>
+                    <input class="button" type="button" onclick="copyToClipboard('#devicecomment')" value="Copy" />
                     <span id="devicecomment" style="font-family:Calibri; font-size:11pt;"></span>
                 </div>
-    
+
                 <div id="sapdiv">
-                    <b> SAP/Access Comment : </b>
-                    <input type="button" onclick="copyToClipboard('#sap')" value="Copy" />
+                    <b style="color:#2779aa;"> SAP/Access Comment : </b>
+                    <input class="button" type="button" onclick="copyToClipboard('#sap')" value="Copy" />
                     <span id="sap" style="font-family:Calibri; font-size:11pt;"></span>
                 </div>
             </div>
         </div>
-    
+    </div>
+</div>
 </body>
 
 <script type="text/javascript">
-    
+
     // Hide the text input boxes in default
     $('.rwcomment').css('display','none');
     function myFunction() {
@@ -353,6 +480,14 @@
     }
 
     $(function() {
+        
+        $( ".widget input[type=checkbox], .widget a, .widget button" ).button();
+        
+        /*An array containing all the User Ids in RW*/
+        var uid = ["A0CA","A0GW","A6RY","A6TK","A7K5","A7P9","A8KK","A9AJ","A9KB","ABMB","ADSR","ADSS","AESV","AESZ","AVSI","AZCI","AZCO","B1ES","B1VP","B2TZ","B3LG","B4WL","B6SQ","B8SA","C3FC","C4GG","C4P9","C4PY","C6RT","C8L1","CFMR","CIBM","D3J1","D6DV","D7PY","DDTE","DZMQ","E1EK","E5BU","EAR1","F1LE","G1P1","H1J1","H2B5","J0FE","JA3J","JBJI","JIWA","JO3B","JOPC","JQAB","K0M8","K0SC","K4WA","KWBG","L1VK","M6TR","M8DY","M8KH","MFSX","MH15","MIH0","MP18","MSHY","MU11","MU17","N2L2","N2RW","M3M0","NJD0","P2RX","P6SF","P7S9","R1M6","R4TO","R8GK","R8K9","RGBL","RKS","RY1P","RZ10","S0K6","S0K7","S0KV","S0R0","S3VO","S5TW","S7DK","S7KR","S9GW","SMAW","T1AW","T4HB","T4T5","T5H7","T6H0","T9S6","TR41N","UFMS","YXJ7"];
+        $("#lastUser").autocomplete({
+        source: uid
+        });
 
         $("#btnClick").click(function() {
 
@@ -396,81 +531,81 @@
             
             // Existing Reinforcements
             const reinforcements = document.createElement("div");
-            reinforcements.innerHTML = `<table><label><b>Existing Reinforcements</b></label>
+            reinforcements.innerHTML = `<table><label><b style="color:#2779aa;">Existing Reinforcements</b></label>
                 <tr>
                     <td><span>Fiberglass Wrap</span></td>
                     <td><span id="fibw">FIBW</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#fibw')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#fibw')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Mod Pole</span></td>
                     <td><span id="modp">MODP</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#modp')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#modp')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>No Reinforcement</span></td>
                     <td><span id="none">NONE</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#none')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#none')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Other</span></td>
                     <td><span id="othr">OTHR</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#othr')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#othr')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Pole Splint</span></td>
                     <td><span id="pspl">PSPL</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#pspl')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#pspl')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Pole Top Extension</span></td>
                     <td><span id="ptop">PTOP</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#ptop')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#ptop')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Steel Truss</span></td>
                     <td><span id="stet">STET</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#stet')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#stet')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Steel Wrap</span></td>
                     <td><span id="stew">STEW</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#stew')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#stew')" value="Copy" /></td>
                 </tr>
                 <tr>
                     <td><span>Wood Stub</span></td>
                     <td><span id="wost">WOST</span></td>
-                    <td><input type="button" onclick="copyToClipboard('#wost')" value="Copy" /></td>
+                    <td><input class="button" type="button" onclick="copyToClipboard('#wost')" value="Copy" /></td>
                 </tr></table>`;
             reinforcements.setAttribute("class", "select");
             
             // Manufacturers    
             const manufacturers = document.createElement("div");
-            manufacturers.innerHTML = `<table><label><b>Manufacturers</b></label>
+            manufacturers.innerHTML = `<table><label><b style="color:#2779aa;">Manufacturers</b></label>
 
                 <tr>
                     <td><span id="baxco">Baxco</span></td>
-	                <td><input type="button" onclick="copyToClipboard('#baxco')" value="Copy" /></td>
+	                <td><input class="button" type="button" onclick="copyToClipboard('#baxco')" value="Copy" /></td>
                 </tr>
 
                 <tr>
                     <td><span id="carney">Carney Co</span></td>
-	                <td><input type="button" onclick="copyToClipboard('#carney')" value="Copy" /></td>
+	                <td><input class="button" type="button" onclick="copyToClipboard('#carney')" value="Copy" /></td>
                 </tr>
 
                 <tr>
                     <td><span id="jhbc">J H Baxter Co</span></td>
-	                <td><input type="button" onclick="copyToClipboard('#jhbc')" value="Copy" /></td>
+	                <td><input class="button" type="button" onclick="copyToClipboard('#jhbc')" value="Copy" /></td>
                 </tr>
                 
                 <tr>
                     <td><span id="mcc">McFarland Cascade Co</span></td>
-	                <td><input type="button" onclick="copyToClipboard('#mcc')" value="Copy" /></td>
+	                <td><input class="button" type="button" onclick="copyToClipboard('#mcc')" value="Copy" /></td>
                 </tr>
 
                 <tr>
                     <td><span id="mbc">McKormick & Baxter Co</span></td>
-	                <td><input type="button" onclick="copyToClipboard('#mbc')" value="Copy" /></td>
+	                <td><input class="button" type="button" onclick="copyToClipboard('#mbc')" value="Copy" /></td>
                 </tr>
             </table>
             `;
@@ -529,6 +664,7 @@
             } else {
                 document.getElementById('devicecommentdiv').style.display = "none";
             }
+            
             // Format devices Array
             for (var i = 0; i < devices.length; i++) {
                 devices[i] = devices[i] + " Address";
@@ -562,6 +698,37 @@
             var index = deviceComment.lastIndexOf(delimiter);
             deviceComment = deviceComment.substring(0, index) + ' and ' + deviceComment.substring(index + delimiter.length);
             
+            
+            if (updatedAttributes.includes('Address') && updatedAttributes.length == 1 && devices.length > 0) {
+                
+                // Array for selected attributes when only Address updated in Pole
+                var poleAddressOnly = new Array();
+                
+                // Array for devices when only Address updated in Pole
+                var devicesPoleAddressOnly = new Array();
+                
+                // Store selected attributes in updatedAttributes Array
+                $("#tblAttributes input[type=checkbox]:checked").each(function() {
+                    poleAddressOnly.push(this.value);
+                });
+                // Store selected devices in devices Array
+                $("#tblDevices input[type=checkbox]:checked").each(function() {
+                    devicesPoleAddressOnly.push(this.value);
+                });
+                
+                // Format devices Array
+                devicesPoleAddressOnly.splice(devicesPoleAddressOnly.length - 1, 1, devicesPoleAddressOnly[devicesPoleAddressOnly.length - 1] + " Address");
+                
+                // Replace 'Address' with 'Pole'
+                poleAddressOnly.splice(0, 1, 'Pole');
+                
+                // Format comment for Pole Address Only with devices
+                var poleAddressOnlyWithDevices = poleAddressOnly.concat(devicesPoleAddressOnly);
+                var poleAddressOnlyComment = poleAddressOnlyWithDevices.join(delimiter);
+                var index = poleAddressOnlyComment.lastIndexOf(delimiter);
+                poleAddressOnlyComment = poleAddressOnlyComment.substring(0, index) + ' and ' + poleAddressOnlyComment.substring(index + delimiter.length);
+            }
+            
             if ($("input:radio[name='otherRW']").is(":checked")) {
                 document.getElementById('devicecommentdiv').style.display = "none";
                 document.getElementById('sessionnamediv').style.display = "none";
@@ -574,10 +741,10 @@
                         var selectedOtherRW = $("input[type = 'radio']:checked").val();
                         if (selectedOtherRW == 'idoc') {
                             document.getElementById("sap").innerHTML = "<p>IDOC (" + date + ") - Waiting for jp Confirmation</p>";
-                            $('input[name=otherRW]').attr('checked', false);
+                            $('input[name=otherRW]').prop('checked', false);
                         } else if (selectedOtherRW.length > 0) {
                             document.getElementById("sap").innerHTML = "<p>" + selectedOtherRW + "</p>";
-                            $('input[name=otherRW]').attr('checked', false);
+                            $('input[name=otherRW]').prop('checked', false);
                         }
                         break;
                     }
@@ -597,12 +764,17 @@
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
                     } else if (devices.length === 1 && alreadyUpdatedAttributes.length === 0) {
-                        if (firstElement.includes(substring)) {
-                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        if (updatedAttributes.includes('Address')) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                         } else {
-                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
                         }
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
@@ -628,61 +800,91 @@
 
                     } else if (devices.length === 1 && alreadyUpdatedAttributes.length === 1) {
                         if (oldrw !== '') {
-                            if (firstElement.includes(substring)) {
-                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            if (updatedAttributes.includes('Address')) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                             } else {
-                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                if (firstElement.includes(substring)) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                                } else {
+                                    document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                }
                             }
                         } else {
-                            if (firstElement.includes(substring)) {
-                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            if (updatedAttributes.includes('Address')) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                             } else {
-                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                if (firstElement.includes(substring)) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                                } else {
+                                    document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                }
                             }
                         }
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
                     } else if (devices.length === 1 && alreadyUpdatedAttributes.length > 1) {
-                        if (firstElement.includes(substring)) {
-                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        if (updatedAttributes.includes('Address')) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                         } else {
-                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
                         }
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
                     } else if (devices.length > 1 && alreadyUpdatedAttributes.length === 1) {
                         if (oldrw !== '') {
-                            if (firstElement.includes(substring)) {
-                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            if (updatedAttributes.includes('Address')) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                             } else {
-                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                if (firstElement.includes(substring)) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                                } else {
+                                    document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Mapped Correctly per RW " + oldrw + " by " + lastuser + "</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                }
                             }
                         } else {
-                            if (firstElement.includes(substring)) {
-                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            if (updatedAttributes.includes('Address')) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                             } else {
-                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
-                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                if (firstElement.includes(substring)) {
+                                    document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                                } else {
+                                    document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributes + " Already Mapped Correctly</p>";
+                                    document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                }
                             }
                         }
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
                     } else if (devices.length > 1 && alreadyUpdatedAttributes.length === 0) {
-                        if (firstElement.includes(substring)) {
-                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
-                            document.getElementById("session").innerHTML = "<p> Updated " + updatedAttributesComment + "</p>";
+                        if (updatedAttributes.includes('Address')) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                         } else {
-                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                                document.getElementById("session").innerHTML = "<p> Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
                         }
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
@@ -697,12 +899,17 @@
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
                     } else if (devices.length > 1 && alreadyUpdatedAttributes.length > 1) {
-                        if (firstElement.includes(substring)) {
-                            document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                        if (updatedAttributes.includes('Address')) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + poleAddressOnlyComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + poleAddressOnlyComment + "</p>";
                         } else {
-                            document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
-                            document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            if (firstElement.includes(substring)) {
+                                document.getElementById("sap").innerHTML = "<p>Updated " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated " + updatedAttributesComment + "</p>";
+                            } else {
+                                document.getElementById("sap").innerHTML = "<p>Updated Pole " + updatedAttributesComment + ". " + alreadyUpdatedAttributesComment + " Already Mapped Correctly</p>";
+                                document.getElementById("session").innerHTML = "<p>Updated Pole " + updatedAttributesComment + "</p>";
+                            }
                         }
                         document.getElementById("pole").innerHTML = "<p>Updated " + updatedAttributes + " per RW " + rw + "</p>";
 
