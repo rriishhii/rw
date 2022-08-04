@@ -5,7 +5,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RW Comments</title>
-    <link href = "https://rriishhii.github.io/rw/rwcomments.css" rel = "stylesheet">
+    <link href = "rwcomments.css" rel = "stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
@@ -268,44 +268,16 @@
             <div style="width:40%; margin: 0 auto;">
                 <table>
                     <tr>
-                        <td>
-                            <select id="RwType">
-                              <option value="RW0">Select RW Type...</option>
-                              <option value="RW1">Anchor</option>
-                              <option value="RW2">Attribute Update</option>
-                              <option value="RW3">Attribute Update - Joint Pole</option>
-                              <option value="RW4">Customer</option>
-                              <option value="RW5">Feature Creation</option>
-                              <option value="RW6">Feature Removal</option>
-                              <option value="RW7">No Mapping Required - Notification Complete</option>
-                              <option value="RW8">Other - Info in Comments</option>
-                              <option value="RW9">Pole Creation</option>
-                              <option value="RW10">Pole Creation - Joint Pole</option>
-                              <option value="RW11">Pole Relocation</option>
-                              <option value="RW12">Pole Relocation - Joint Pole</option>
-                              <option value="RW13">Pole Removal</option>
-                              <option value="RW14">Pole Removal - Joint Pole</option>
-                              <option value="RW15">Pole Removal w/ Device</option>
-                              <option value="RW16">Pole Removal w/ Device - Joint Pole</option>
-                              <option value="RW17">Streetlight</option>
-                              <option value="RW18">Transmission</option>
-                              <option value="RW19">Tree Connect</option>
-                            </select> 
-                        </td>
-                        <td><input class="button" type="button" id="proceed" value="Proceed" /></td>
+                        <td><input type="text" id="rwNumber" placeholder="RW Number"></td>
+                        <td><input class="button" type="button" id="btnClick" value="Generate" /></td>
                         <td class="checkbox-rect">
                             <input type="checkbox" name="rwInComment" id="rwInComment" value="yes">
                             <label for="rwInComment">Comment In GIS</label>
                         </td>
+                        
                     </tr>
                 </table>
                 <table>
-                    <tr>
-                        <td><input type="text" id="rwNumber" placeholder="RW Number"></td>
-                        <td><input type="text" id="sapId" placeholder="SAP ID"></td>
-                        <td><input class="button" type="button" id="btnClick" value="Generate" /></td>
-                        
-                    </tr>
                     <tr>
                         <td><input class="rwcomment" type="text" id="oldRwNumber" placeholder="RW Number in Comment"></td>
                         <td><input class="rwcomment" type="text" id="lastUser" placeholder="Last User"></td>
@@ -340,12 +312,6 @@
                     <input class="button" type="button" onclick="copyToClipboard('#devicecomment')" value="Copy" />
                     <span id="devicecomment" style="font-family:Calibri; font-size:11pt;"></span>
                 </div>
-            
-                <div id="jhndiv" style="display:none;">
-                    <b style="color:#2779aa;"> Job History Note Comment : </b>
-                    <input class="button" type="button" onclick="copyToClipboard('#jhncomment')" value="Copy" />
-                    <span id="jhncomment" style="font-family:Calibri; font-size:11pt;"></span>
-                </div>
 
                 <div id="sapdiv" style="display:none;">
                     <b style="color:#2779aa;"> SAP/Access Comment : </b>
@@ -373,9 +339,6 @@
 
     $(function() {
         
-        // Hide the attributes checkboxes
-        $('.select').hide();
-        
         // Hide the GIS Comment text input boxes in default
         $('.rwcomment').hide();
         
@@ -389,17 +352,6 @@
             }
         });
 
-        
-        $("#proceed").click(function(){
-            // Store RW Type
-            var rwType = document.getElementById("RwType");
-            var RWType = rwType.value;
-            if(RWType == "RW2") {
-                $('.select').show();
-            } else {
-                $('.select').hide();
-            }
-        });
         
         $( ".widget input[type=checkbox], .widget a, .widget button" ).button();
         
@@ -422,13 +374,6 @@
             const timeElapsed = Date.now();
             const today = new Date(timeElapsed);
             const date = today.toLocaleDateString();
-
-            // Store RW Type
-            var rwtype = document.getElementById("RwType");
-            var myRwType = rwtype.value;
-            
-            // Store SAP ID
-            var sapid = document.getElementById("sapId").value;
             
             // Store RW no. and display Session Name
             var rw = document.getElementById("rwNumber").value;
@@ -586,7 +531,6 @@
                 document.getElementById('sessionnamediv').style.display = "none";
                 document.getElementById('sessiondiv').style.display = "none";
                 document.getElementById('polediv').style.display = "none";
-                document.getElementById('jhndiv').style.display = "none";
             } else {
                 if (devices.length == 0) {
                     document.getElementById('sessionnamediv').style.display = "none";
@@ -1030,128 +974,11 @@
                         document.getElementById("session").innerHTML = "<p>Updated " + deviceComment + "</p>";
 
                     } else {
-                        switch(myRwType) {
-                            case "RW0":
-                                document.getElementById('sessionnamediv').style.display = "none";
-                                document.getElementById('sessiondiv').style.display = "none";
-                                document.getElementById('jhndiv').style.display = "none";
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span><strong>Warning!</strong> RW Type not Selected.`;
-                                break;
-                            case "RW1":
-                                console.log(rwtype.text)
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW2":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW3":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW4":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW5":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW6":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW6":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW7":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW8":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW9":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW10":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW11":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW12":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW13":
-                                document.getElementById('sessionnamediv').style.display = "block";
-                                document.getElementById('sessiondiv').style.display = "block";
-                                document.getElementById('jhndiv').style.display = "block";
-                                document.getElementById('sapdiv').style.display = "block";
-                                
-                                document.getElementById("session").innerHTML = "<p>Pole Removal</p>";
-                                document.getElementById("jhncomment").innerHTML = "<p>Removed Pole SAP ID "  + sapid + "</p>";
-                                document.getElementById("sap").innerHTML = "<p>Pole Removal NIF</p>";
-                                break;
-                            case "RW14":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW15":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW16":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW17":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW18":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            case "RW19":
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>Your Selected RW Type is ` + rwtype.options[rwtype.selectedIndex].text + `.`;
-                                break;
-                            default:
-                                document.getElementById('sapdiv').style.display = "none";
-                                document.getElementById('warning').style.display = "block";
-                                document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span><strong>Warning!</strong> RW Type not Selected.`;
+                        document.getElementById('sapdiv').style.display = "none";
+                        document.getElementById('warning').style.display = "block";
+                        document.getElementById("warning").innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span><strong>Warning!</strong> Please select at least one option.`;
                         }
                     }
-
-                }
             }
         });
 
