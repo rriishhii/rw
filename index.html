@@ -162,31 +162,6 @@
                     </td>
                 </tr>
             </table>
-            
-            <table id="OtherRWs">
-                <label><b style="color:#2779aa;">Other RW's</b></label>
-
-                <tr>
-                    <td class="radio-circle">
-                        <input id="poleRemoval" type = "radio" name = "otherRW" value = "Pole Removal - Sent back to PG&E">
-                        <label for="poleRemoval">Pole Removal</label>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="radio-circle">
-                        <input id="transmission" type = "radio" name = "otherRW" value = "Transmission - Sent back to PG&E">
-                        <label for="transmission">Transmission</label>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="radio-circle">
-                        <input id="noco" type = "radio" name = "otherRW" value = "No Mapping Required - NOCO in SAP">
-                        <label for="noco">NOCO</label>
-                    </td>
-                </tr>
-            </table>
         </div>
         <div class="select">
             <table id="alreadyUpdatedAttributes">
@@ -276,6 +251,36 @@
         <div class="select" id="manufacturerdiv" style="display:none;"></div>
         
     </div>
+	
+    <div class="container">
+        <div class="select" id="OtherRWs" style="border: 1px solid #2779aa; padding: 4px;">
+            <div style="float: left; width: 33%;">
+                <table>
+                    <td class="radio-circle">
+                        <input id="poleRemoval" type = "radio" name = "otherRW" value = "Pole Removal - Sent back to PG&E">
+                        <label for="poleRemoval">Pole Removal</label>
+                    </td>
+                </table>
+            </div>
+            <div style="float: left; width: 33%;">
+                <table>
+                    <td class="radio-circle">
+                        <input id="transmission" type = "radio" name = "otherRW" value = "Transmission - Sent back to PG&E">
+                        <label for="transmission">Transmission</label>
+                    </td>
+                </table>
+            </div>
+            <div style="float: left; width: 33%;">
+                <table>
+                    <td class="radio-circle">
+                        <input id="noco" type = "radio" name = "otherRW" value = "No Mapping Required - NOCO in SAP">
+                        <label for="noco">NOCO</label>
+                    </td> 
+                </table>
+            </div>
+        </div>
+    </div>
+	
     <div class="">
         <div style="width:100%;">
             <div style="width:40%; margin: 0 auto;">
